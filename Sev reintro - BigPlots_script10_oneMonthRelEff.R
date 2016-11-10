@@ -1023,10 +1023,71 @@ nsims = 2500
 cat(paste("SCRIPT FINISHED RUNNING SUCCESSFULLY, ",Sys.time(),", on ",Sys.Date(),"\n",sep=""))
 
 
-### NOTE: did not converge after 25000 iterations (~9 hours). Try 100k iterations next time! 
-# With special option to enhance mixing?
+
+######################
+#Summary stats for table
+setwd(BUGSDir)
+load("SevModel10_1mnth_newprecip_2016-07-16.RData")
+
+#Phi
+mean(Mod$sims.list$phi)
+quantile(Mod$sims.list$phi ,c(0.025,0.975))
+
+#Release effect
+mean(Mod$sims.list$relEff)
+quantile(Mod$sims.list$relEff ,c(0.025,0.975))
+
+#Spring Release effect
+mean(Mod$sims.list$springRelEff)
+quantile(Mod$sims.list$springRelEff ,c(0.025,0.975))
+
+#Juvenile effect
+mean(Mod$sims.list$juvEff)
+quantile(Mod$sims.list$juvEff ,c(0.025,0.975))
+
+#Male effect
+mean(Mod$sims.list$maleEff)
+quantile(Mod$sims.list$maleEff ,c(0.025,0.975))
+
+#Precipitation effect
+mean(Mod$sims.list$precipEff)
+quantile(Mod$sims.list$precipEff ,c(0.025,0.975))
+
+#Soil moisture effect
+mean(Mod$sims.list$soilEff)
+quantile(Mod$sims.list$soilEff ,c(0.025,0.975))
+
+#p
+mean(Mod$sims.list$p0)
+quantile(Mod$sims.list$p0 ,c(0.025,0.975))
+
+#Tag retention rate
+mean(Mod$sims.list$tagRetentionRate)
+quantile(Mod$sims.list$tagRetentionRate ,c(0.025,0.975))
+
+#######Derived
+#Residents
+#Adult female:
+mean(Mod$sims.list$femphi)
+quantile(Mod$sims.list$femphi ,c(0.025,0.975))
+
+#Adult male:
+mean(Mod$sims.list$malephi)
+quantile(Mod$sims.list$malephi ,c(0.025,0.975))
+
+#Juvenile:
+mean(Mod$sims.list$juvphi)
+quantile(Mod$sims.list$juvphi ,c(0.025,0.975))
+
+#Releases:
+#Spring:
+mean(Mod$sims.list$springadrelsurv_mo)
+quantile(Mod$sims.list$springadrelsurv_mo, c(0.025,0.975))
+
+#Summer:
+mean(Mod$sims.list$falladrelsurv_mo)
+quantile(Mod$sims.list$falladrelsurv_mo, c(0.025,0.975))
+
 
 ##############################################
 ############### END OF SCRIPT ################
-
-
