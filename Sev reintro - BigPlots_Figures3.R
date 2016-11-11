@@ -6,7 +6,8 @@ rm(list=ls())
 ANA = F
 KEVIN = F
 KEVINOFFICE = F
-ELIZABETH = T
+ELIZABETH = F
+ELIZABETHOFFICE = T
 
 ###################################
 ##########  SET WORKING DIRECTORY
@@ -15,6 +16,7 @@ if(KEVIN) rootDir <- "C:\\Users\\Kevin\\Dropbox\\Sev Pdog Study\\BIG plot study\
 if(KEVINOFFICE) rootDir <- "E:\\Dropbox\\Sev Pdog Study\\BIG plot study\\"
 if(ANA) rootDir <- ""
 if(ELIZABETH) rootDir <- "~/Dropbox/Nevada/Sevilleta/Sev Pdog Study/BIG plot study/"
+if(ELIZABETHOFFICE) rootDir <- "C:\\Users\\ehunter\\Dropbox\\Nevada\\Sevilleta\\Sev Pdog Study\\BIG plot study\\"
 
 ScriptDir <- paste(rootDir,"Rscript",sep="")
 DataDir <- paste(rootDir,"Data",sep="")
@@ -304,6 +306,72 @@ lines(density(lambda[1032:2062]), col="orangered1", lwd=3)
 lines(density(lambda[2063:3093]), col="orange", lwd=3)
 lines(density(lambda[3094:4124]), col="gold", lwd=3)
 segments(x0=1, x1=1, y0=0, y1=3, lty=2, lwd=3)
+
+###
+#Combined fecundity and lambda for each year
+setwd(FiguresDir)
+filename=sprintf("Lambda_fert_%s.pdf",Sys.Date()) 
+pdf(filename, width=7, height=5)
+par(mfrow=c(2,1), mar=c(4,4,1,1), mgp=c(2.5,1,0))
+plot(density(littersize[temp.12.3]), xlim=c(0,1.057), xlab="Recruitment (juveniles[F]/female/year)", lwd=3, col="orangered4", 
+	main="", ylab="Probability density", ylim=c(0, 5.8))
+lines(density(littersize[temp.13.3]), col="orangered1", lwd=3)
+lines(density(littersize[temp.14.3]), col="orange", lwd=3)
+lines(density(littersize[temp.15.3]), col="gold", lwd=3)
+segments(x0=mean(littersize[temp.12.3]), y0=6, y1=4.6, lty=2, lwd=3, col="orangered4")
+segments(x0=mean(littersize[temp.13.3]), y0=6, y1=2.95, lty=2, lwd=3, col="orangered1")
+segments(x0=mean(littersize[temp.14.3]), y0=6, y1=1.65, lty=2, lwd=3, col="orange")
+segments(x0=mean(littersize[temp.15.3]), y0=6, y1=1.65, lty=2, lwd=3, col="gold")
+text(x=mean(littersize[temp.12.3]), y=5, labels="2012", col="orangered4", adj=-0.1)
+text(x=mean(littersize[temp.13.3]), y=5, labels="2013", col="orangered1", adj=-0.1)
+text(x=mean(littersize[temp.14.3]), y=5, labels="2014", col="orange", adj=-0.1)
+text(x=mean(littersize[temp.15.3]), y=5, labels="2015", col="gold", adj=-0.1)
+segments(x0=0.88, y0=0, x1=0.88, y1=1000, lty=3, lwd=2) #Recruitment needed to reach lambda=1
+text(x=1.01, y=5.07, labels="(a)", cex=1.5)
+plot(density(lambda[1:1031]), ylab="Probability density", xlab="Lambda", lwd=3, col="orangered4", main="", xlim=c(0,1.2), ylim=c(0,2.85))
+lines(density(lambda[1032:2062]), col="orangered1", lwd=3)
+lines(density(lambda[2063:3093]), col="orange", lwd=3)
+lines(density(lambda[3094:4124]), col="gold", lwd=3)
+segments(x0=mean(lambda[1:1031]), y0=6, y1=2.7, lty=2, lwd=3, col="orangered4")
+segments(x0=mean(lambda[1032:2062]), y0=6, y1=2.4, lty=2, lwd=3, col="orangered1")
+segments(x0=mean(lambda[2063:3093]), y0=6, y1=2, lty=2, lwd=3, col="orange")
+segments(x0=mean(lambda[3094:4124]), y0=6, y1=2, lty=2, lwd=3, col="gold")
+segments(x0=1, x1=1, y0=0, y1=3, lty=3, lwd=2)
+text(x=1.15, y=2.5, labels="(b)", cex=1.5)
+dev.off()
+
+###
+#Combined fecundity and lambda for each year, black and white
+setwd(FiguresDir)
+filename=sprintf("Lambda_fert_bw_%s.pdf",Sys.Date()) 
+pdf(filename, width=7, height=5)
+par(mfrow=c(2,1), mar=c(4,4,1,1), mgp=c(2.5,1,0))
+plot(density(littersize[temp.12.3]), xlim=c(0,1.057), xlab="Recruitment (juveniles[F]/female/year)", lwd=3, col="black", 
+	main="", ylab="Probability density", ylim=c(0, 5.8))
+lines(density(littersize[temp.13.3]), col=gray(0.3), lwd=3)
+lines(density(littersize[temp.14.3]), col=gray(0.6), lwd=3)
+lines(density(littersize[temp.15.3]), col=gray(0.85), lwd=3)
+segments(x0=mean(littersize[temp.12.3]), y0=6, y1=4.6, lty=2, lwd=3, col="black")
+segments(x0=mean(littersize[temp.13.3]), y0=6, y1=2.95, lty=2, lwd=3, col=gray(0.3))
+segments(x0=mean(littersize[temp.14.3]), y0=6, y1=1.6, lty=2, lwd=3, col=gray(0.6))
+segments(x0=mean(littersize[temp.15.3]), y0=6, y1=1.65, lty=2, lwd=3, col=gray(0.85))
+text(x=mean(littersize[temp.12.3]), y=5, labels="2012", col="black", adj=-0.1)
+text(x=mean(littersize[temp.13.3]), y=5, labels="2013", col=gray(0.3), adj=-0.1)
+text(x=mean(littersize[temp.14.3]), y=5, labels="2014", col=gray(0.6), adj=-0.1)
+text(x=mean(littersize[temp.15.3]), y=5, labels="2015", col=gray(0.85), adj=-0.1)
+segments(x0=0.88, y0=0, x1=0.88, y1=1000, lty=3, lwd=2) #Recruitment needed to reach lambda=1
+text(x=1.01, y=5.07, labels="(a)", cex=1.5)
+plot(density(lambda[1:1031]), ylab="Probability density", xlab="Lambda", lwd=3, col="black", main="", xlim=c(0,1.2), ylim=c(0,2.85))
+lines(density(lambda[1032:2062]), col=gray(0.3), lwd=3)
+lines(density(lambda[2063:3093]), col=gray(0.6), lwd=3)
+lines(density(lambda[3094:4124]), col=gray(0.85), lwd=3)
+segments(x0=mean(lambda[1:1031]), y0=6, y1=2.7, lty=2, lwd=3, col="black")
+segments(x0=mean(lambda[1032:2062]), y0=6, y1=2.4, lty=2, lwd=3, col=gray(0.3))
+segments(x0=mean(lambda[2063:3093]), y0=6, y1=2, lty=2, lwd=3, col=gray(0.6))
+segments(x0=mean(lambda[3094:4124]), y0=6, y1=2, lty=2, lwd=3, col=gray(0.85))
+segments(x0=1, x1=1, y0=0, y1=3, lty=3, lwd=2)
+text(x=1.15, y=2.5, labels="(b)", cex=1.5)
+dev.off()
 
 #############################
 #####  write parameter estimates to file
