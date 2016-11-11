@@ -27,7 +27,7 @@ if(ELIZABETHOFFICE) rootDir <- "C:\\Users\\ehunter\\Dropbox\\Nevada\\Sevilleta\\
 ScriptDir <- paste(rootDir,"Rscript",sep="")
 DataDir <- paste(rootDir,"Data",sep="")
 FiguresDir <- paste(rootDir,"RawFigures",sep="")
-ResultsDir <- paste(rootDir,"Results",sep="")
+ResultsDir <- paste(rootDir,"Manuscript\\Results",sep="")
 BUGSDir <- paste(rootDir,"BUGS",sep="")
 
 setwd(DataDir)
@@ -1088,6 +1088,46 @@ quantile(Mod$sims.list$springadrelsurv_mo, c(0.025,0.975))
 mean(Mod$sims.list$falladrelsurv_mo)
 quantile(Mod$sims.list$falladrelsurv_mo, c(0.025,0.975))
 
+#############################
+#####  write parameter estimates to file
 
+names(Mod$sims.list)
+
+tempdf = data.frame()   
+
+#"phi0",      # mean probability of survival
+#"relEff",  # release effect - change in survival in month following release
+#"springRelEff",   # effect of being released in spring vs. summer
+#"juvEff",      # effect of being juvenile on survival
+#"maleEff",     # effect of maleness on survival
+#"precipEff",   # effect of precip on survival
+#"soilEff",     # effect of soil moisture on survival
+#"p0",            # mean prob. of capture
+#"tagRetentionRate",    # probability of keeping an ear tag
+
+
+
+cphi0 <- c(mean(Mod$sims.list$phi0),quantile(Mod$sims.list$phi0,0.025),quantile(Mod$sims.list$phi0,0.975))
+creleff <- c(mean(Mod$sims.list$relEff),quantile(Mod$sims.list$relEff,0.025),quantile(Mod$sims.list$relEff,0.975))
+cspringreleff <- c(mean(Mod$sims.list$springRelEff),quantile(Mod$sims.list$springRelEff,0.025),quantile(Mod$sims.list$springRelEff,0.975))
+cjuveff   <- c(mean(Mod$sims.list$juvEff),quantile(Mod$sims.list$juvEff,0.025),quantile(Mod$sims.list$juvEff,0.975))
+cmaleeff  <- c(mean(Mod$sims.list$maleEff),quantile(Mod$sims.list$maleEff,0.025),quantile(Mod$sims.list$maleEff,0.975))
+cprecipeff  <- c(mean(Mod$sims.list$precipEff),quantile(Mod$sims.list$precipEff,0.025),quantile(Mod$sims.list$precipEff,0.975))
+csoileff   <- c(mean(Mod$sims.list$soilEff),quantile(Mod$sims.list$soilEff,0.025),quantile(Mod$sims.list$soilEff,0.975))
+cp0  <- c(mean(Mod$sims.list$p0),quantile(Mod$sims.list$p0,0.025),quantile(Mod$sims.list$p0,0.975))
+ctag  <- c(mean(Mod$sims.list$tagRetentionRate),quantile(Mod$sims.list$tagRetentionRate,0.025),quantile(Mod$sims.list$tagRetentionRate,0.975))
+
+
+paramtable1 <- round(rbind(cphi0,creleff, cspringreleff, cjuveff, cmaleeff, cprecipeff, csoileff, cp0, ctag) ,3) 
+colnames(paramtable1) <- c("mean","lower limit 95% CI","upper limit 95% CI")
+rownames(paramtable1) <- c("mean survival","release effect","spring release effect",
+                           "effect of juvenileness on survival", "effect of maleness on survival", 
+					"effect of precipitation on survival", "effect of soil moisture on survival", 
+					"mean capture probability","probability of retaining ear tag")   
+
+
+setwd(ResultsDir)
+tempname <- paste("Parameter_Table1_",Sys.Date(),".csv",sep="")
+write.csv(paramtable1,tempname)
 ##############################################
 ############### END OF SCRIPT ################
