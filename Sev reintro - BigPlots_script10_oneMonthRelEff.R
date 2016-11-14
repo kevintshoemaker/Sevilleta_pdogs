@@ -668,7 +668,7 @@ if(KEVINOFFICE){
 }
 
 if(ELIZABETHOFFICE){
-  bugs.directory= "C:\\Users\\eahunter\\Documents\\WinBUGS14\\"
+  bugs.directory= "C:\\Users\\ehunter\\Documents\\WinBUGS14\\"
 }
 
 working.directory= BUGSDir   
@@ -989,7 +989,7 @@ Par <- c(          #   parameters to save the posterior samples for
          #"juvRelEff",
          "springRelEff",
          "tagRetentionRate",
-         #"sd.ind",
+         "sd.ind",
          "p0",            # mean nightly prob. of capture
          #"gamma.prime",    # probability of staying off site
          #"gamma.dprime",     # probability of leaving??
@@ -1027,7 +1027,7 @@ cat(paste("SCRIPT FINISHED RUNNING SUCCESSFULLY, ",Sys.time(),", on ",Sys.Date()
 ######################
 #Summary stats for table
 setwd(BUGSDir)
-load("SevModel10_1mnth_newprecip_2016-07-16.RData")
+load("SevModel10_1mnth_newprecip_2016-11-13.RData")
 
 #Phi
 mean(Mod$sims.list$phi)
@@ -1064,6 +1064,10 @@ quantile(Mod$sims.list$p0 ,c(0.025,0.975))
 #Tag retention rate
 mean(Mod$sims.list$tagRetentionRate)
 quantile(Mod$sims.list$tagRetentionRate ,c(0.025,0.975))
+
+#sd.ind
+mean(Mod$sims.list$sd.ind)
+quantile(Mod$sims.list$sd.ind ,c(0.025,0.975))
 
 #######Derived
 #Residents
@@ -1104,6 +1108,7 @@ tempdf = data.frame()
 #"soilEff",     # effect of soil moisture on survival
 #"p0",            # mean prob. of capture
 #"tagRetentionRate",    # probability of keeping an ear tag
+#"sd.ind",		# individual variability in capture probability
 
 
 
@@ -1116,14 +1121,14 @@ cprecipeff  <- c(mean(Mod$sims.list$precipEff),quantile(Mod$sims.list$precipEff,
 csoileff   <- c(mean(Mod$sims.list$soilEff),quantile(Mod$sims.list$soilEff,0.025),quantile(Mod$sims.list$soilEff,0.975))
 cp0  <- c(mean(Mod$sims.list$p0),quantile(Mod$sims.list$p0,0.025),quantile(Mod$sims.list$p0,0.975))
 ctag  <- c(mean(Mod$sims.list$tagRetentionRate),quantile(Mod$sims.list$tagRetentionRate,0.025),quantile(Mod$sims.list$tagRetentionRate,0.975))
+csdind  <- c(mean(Mod$sims.list$sd.ind),quantile(Mod$sims.list$sd.ind,0.025),quantile(Mod$sims.list$sd.ind,0.975))
 
-
-paramtable1 <- round(rbind(cphi0,creleff, cspringreleff, cjuveff, cmaleeff, cprecipeff, csoileff, cp0, ctag) ,3) 
+paramtable1 <- round(rbind(cphi0,creleff, cspringreleff, cjuveff, cmaleeff, cprecipeff, csoileff, cp0, ctag, csdind) ,3) 
 colnames(paramtable1) <- c("mean","lower limit 95% CI","upper limit 95% CI")
 rownames(paramtable1) <- c("mean survival","release effect","spring release effect",
                            "effect of juvenileness on survival", "effect of maleness on survival", 
 					"effect of precipitation on survival", "effect of soil moisture on survival", 
-					"mean capture probability","probability of retaining ear tag")   
+					"mean capture probability","probability of retaining ear tag", "individual variability in capture probability")   
 
 
 setwd(ResultsDir)
